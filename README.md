@@ -20,3 +20,4 @@ http://127.0.0.1:4173/
 - No Supabase or external database is connected yet.
 - OCR runs in the browser through Tesseract.js from a CDN.
 - Vercel can publish the static files directly from this folder.
+"# family-grocery-app" 
