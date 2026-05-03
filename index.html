@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Family Grocery App</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <header class="app-header">
+      <div>
+        <p class="eyebrow">Family Grocery App</p>
+        <h1>Groceries and household costs</h1>
+      </div>
+      <div class="header-actions">
+        <button class="secondary-button" id="exportCsvButton" type="button">Export CSV</button>
+        <button class="ghost-button" id="clearDataButton" type="button">Clear data</button>
+      </div>
+    </header>
+
+    <main class="app-shell">
+      <section class="entry-panel" aria-labelledby="entryTitle">
+        <div class="section-heading">
+          <div>
+            <h2 id="entryTitle">Add expense</h2>
+            <p>Scan a grocery slip or enter a household cost.</p>
+          </div>
+          <div class="mode-tabs" role="tablist" aria-label="Expense type">
+            <button class="mode-tab active" id="groceryMode" type="button" data-mode="grocery">Grocery</button>
+            <button class="mode-tab" id="householdMode" type="button" data-mode="household">Household</button>
+          </div>
+        </div>
+
+        <form id="expenseForm" class="expense-form">
+          <div class="form-grid">
+            <label>
+              <span>Who paid</span>
+              <select id="payer" required>
+                <option value="Robin">Robin</option>
+                <option value="Anja">Anja</option>
+                <option value="Patrick">Patrick</option>
+                <option value="Constance">Constance</option>
+                <option value="Jimmy">Jimmy</option>
+              </select>
+            </label>
+
+            <label>
+              <span>Store or description</span>
+              <input id="store" type="text" placeholder="Checkers, Pick n Pay, rates..." required>
+            </label>
+
+            <label>
+              <span>Date</span>
+              <input id="date" type="date" required>
+            </label>
+
+            <label>
+              <span>Total</span>
+              <input id="total" type="number" min="0" step="0.01" placeholder="0.00" required>
+            </label>
+          </div>
+
+          <label class="toggle-row" id="jimmySplitRow">
+            <input id="includeJimmy" type="checkbox" checked>
+            <span>Include Jimmy in this grocery split?</span>
+          </label>
+
+          <div class="ocr-area" id="ocrArea">
+            <label class="file-drop" for="receiptFile">
+              <input id="receiptFile" type="file" accept="image/*">
+              <span>Upload slip image</span>
+              <small>OCR will try to read store, date, and final total.</small>
+            </label>
+            <button class="secondary-button" id="runOcrButton" type="button">Run OCR</button>
+          </div>
+
+          <p class="ocr-note" id="ocrNote">OCR may not read slips perfectly. Please check and edit the store and total before saving.</p>
+          <div class="ocr-status" id="ocrStatus" role="status" aria-live="polite"></div>
+
+          <label class="full-row">
+            <span>Receipt text</span>
+            <textarea id="ocrText" rows="6" placeholder="Raw OCR text appears here. You can paste slip text too."></textarea>
+          </label>
+
+          <div class="actions">
+            <button class="primary-button" type="submit">Save expense</button>
+            <button class="secondary-button" id="parseTextButton" type="button">Parse text</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="summary-panel" aria-labelledby="summaryTitle">
+        <div class="section-heading">
+          <div>
+            <h2 id="summaryTitle">Settlement</h2>
+            <p>Family portions and final amounts.</p>
+          </div>
+        </div>
+        <div class="totals-grid" id="totalsGrid"></div>
+        <div class="split-note" id="splitNote"></div>
+      </section>
+
+      <section class="period-panel" aria-labelledby="periodTitle">
+        <div class="section-heading">
+          <div>
+            <h2 id="periodTitle">Billing period</h2>
+            <p>Debit orders go off on the 20th. Money is due to Rob by the payment due date.</p>
+          </div>
+        </div>
+        <div class="period-form">
+          <label>
+            <span>Period name</span>
+            <input id="periodName" type="text">
+          </label>
+          <label>
+            <span>Start date</span>
+            <input id="periodStart" type="date">
+          </label>
+          <label>
+            <span>End date</span>
+            <input id="periodEnd" type="date">
+          </label>
+          <label>
+            <span>Payment due date</span>
+            <input id="paymentDue" type="date">
+          </label>
+        </div>
+        <div class="period-grid" id="periodGrid"></div>
+      </section>
+
+      <section class="history-panel" aria-labelledby="historyTitle">
+        <div class="section-heading">
+          <div>
+            <h2 id="historyTitle">Saved expenses</h2>
+            <p>Receipts and household costs stored in this browser.</p>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Type</th>
+                <th>Store</th>
+                <th>Paid by</th>
+                <th>Jimmy split</th>
+                <th>Total</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="expensesTable"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
