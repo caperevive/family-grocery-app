@@ -4,15 +4,7 @@ Phase 1 browser/local-storage app for tracking family grocery slips and househol
 
 ## Local Run
 
-```bash
-npm start
-```
-
-Then open:
-
-```text
-http://127.0.0.1:4173/
-```
+Open `index.html` in a browser, or use any simple static file server pointed at this folder.
 
 ## Phase 1 Notes
 

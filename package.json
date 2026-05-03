@@ -3,10 +3,6 @@
   "version": "1.0.0",
   "private": true,
   "description": "Phase 1 family grocery and household cost tracker using browser local storage.",
-  "scripts": {
-    "dev": "node server.js",
-    "start": "node server.js"
-  },
   "keywords": [
     "grocery",
     "household",
